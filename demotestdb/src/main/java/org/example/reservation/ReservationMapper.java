@@ -19,16 +19,14 @@ public class ReservationMapper {
     RoomRepository roomRepository;
 
     public ReservationDTO toDTO(Reservation reservation){
-        Person person = reservation.getPerson();
         Room room = reservation.getRoom();
 
-        return new ReservationDTO(reservation.getId(),room.getId() ,person.getId(), reservation.getStartTime().toLocalTime(), reservation.getEndTime().toLocalTime(), reservation.getReservationDate());
+        return new ReservationDTO(reservation.getId(),room.getId() ,reservation.getUid(), reservation.getStartTime().toLocalTime(), reservation.getEndTime().toLocalTime(), reservation.getReservationDate());
     }
 
     public Reservation toEntity(ReservationDTO reservationDTO){
-        Person person = personRepository.getById(reservationDTO.personId());
         Room room = roomRepository.getRoomById(reservationDTO.roomId());
-        return new Reservation(reservationDTO.id(), room,person, LocalDateTime.of(reservationDTO.reservationDate(),reservationDTO.startTime()),LocalDateTime.of(reservationDTO.reservationDate(),reservationDTO.endTime()),reservationDTO.reservationDate());
+        return new Reservation(reservationDTO.id(), room, reservationDTO.uid(), LocalDateTime.of(reservationDTO.reservationDate(),reservationDTO.startTime()),LocalDateTime.of(reservationDTO.reservationDate(),reservationDTO.endTime()),reservationDTO.reservationDate());
     }
 
 }

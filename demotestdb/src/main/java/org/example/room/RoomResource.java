@@ -1,9 +1,7 @@
 package org.example.room;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
@@ -21,6 +19,13 @@ public class RoomResource {
     @Path("/list")
     public List<Room> getAllRooms(){
         return roomRepository.getAllRooms();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Room getRoom(@PathParam("id") int id){
+        return roomRepository.getRoomById(id);
     }
 
 }

@@ -31,7 +31,7 @@ import java.util.Objects;
 @Entity
 @NamedQuery(name = Reservation.FIND_ALL_RESERVATIONS, query = "Select r from Reservation r")
 @NamedQuery(name = Reservation.FIND_RESERVATIONS_BY_ROOM, query = "SELECT r from Reservation r where r.room.id = :roomId")
-@NamedQuery(name = Reservation.FIND_RESERVATIONS_BY_PERSON, query = "SELECT r from Reservation r where r.person.id = :personId")
+//@NamedQuery(name = Reservation.FIND_RESERVATIONS_BY_PERSON, query = "SELECT r from Reservation r where r.person.id = :personId")
 public class Reservation {
 
     public static final String FIND_ALL_RESERVATIONS = "Reservation.findAll";
@@ -43,29 +43,27 @@ public class Reservation {
     @SequenceGenerator(name = "reservation_seq", sequenceName = "reservation_seq", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservation_seq")
     private int id;
-    private static int countId;
+    //private static int countId;
     @ManyToOne
     @JoinColumn(name = "roomId")
     private Room room;
 
-    @ManyToOne
-    @JoinColumn(name = "personId")
-    private Person person;
+    private String uid;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDate reservationDate;
 
-    public Reservation(Room room, Person person, LocalDateTime startTime, LocalDateTime endTime, LocalDate date) {
+    public Reservation(Room room, String uid, LocalDateTime startTime, LocalDateTime endTime, LocalDate date) {
         this.room = room;
-        this.person = person;
+        this.uid = uid;
         this.startTime = startTime;
         this.endTime = endTime;
         this.reservationDate = date;
     }
 
-    public Reservation(int id,Room room, Person person, LocalDateTime startTime, LocalDateTime endTime, LocalDate date) {
-        this(room,person,startTime,endTime,date);
+    public Reservation(int id,Room room, String uid, LocalDateTime startTime, LocalDateTime endTime, LocalDate date) {
+        this(room,uid,startTime,endTime,date);
         this.id = id;
     }
 
@@ -87,12 +85,12 @@ public class Reservation {
         this.room = room;
     }
 
-    public Person getPerson() {
-        return person;
+    public String getUid() {
+        return uid;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public LocalDateTime getStartTime() {
@@ -124,7 +122,7 @@ public class Reservation {
         return "Reservation{" +
                 "id=" + id +
                 ", roomId=" + room +
-                ", personId=" + person +
+                ", personId=" + uid +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", reservationDate=" + reservationDate +

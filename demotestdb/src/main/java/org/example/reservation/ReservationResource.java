@@ -1,11 +1,14 @@
 package org.example.reservation;
 
 
+import com.google.api.client.json.webtoken.JsonWebToken;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import org.example.person.PersonRepository;
 
@@ -15,6 +18,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
 
 @Path("/api/reservations")
 @RequestScoped
@@ -62,12 +66,13 @@ public class ReservationResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void addReservation(ReservationDTO reservationDTO){
+    public void addReservation(ReservationDTO reservationDTO, @Context ContainerRequestContext requestContext){
         this.reservationRepository.addReservation(reservationMapper.toEntity(reservationDTO));
+
     }
 
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
+    //@Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public void deleteReservation(@PathParam("id") int id){
         this.reservationRepository.deleteReservation(id);

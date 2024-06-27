@@ -9,7 +9,7 @@ import java.time.LocalTime;
 public record ReservationDTO(
     int id,
     int roomId,
-    int personId,
+    String uid,
     LocalTime startTime,
     LocalTime endTime,
     LocalDate reservationDate

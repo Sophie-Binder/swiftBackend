@@ -13,7 +13,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
-
+import com.google.firebase.auth.FirebaseToken;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +22,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserRecord;
+import java.util.concurrent.ExecutionException;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,14 +96,14 @@ public class PersonRepository {
     }
 
     @Transactional
-    public void addPerson(String uuid,String firstName, String lastName, String email){
-        Person temp = getByUuid(uuid);
+    public void addPerson(String uid, String name, String email){
 
-        if (temp==null){
-          Person newPerson = new Person(uuid,firstName,lastName, email);
-          System.out.println(newPerson);
-          entityManager.persist(newPerson);
-      }
+        Person user = getByUuid(uid);
+        if (user == null) {
+            user = new Person(uid, name, name, email);
+        }
+
+        entityManager.persist(user);
     }
 
 }

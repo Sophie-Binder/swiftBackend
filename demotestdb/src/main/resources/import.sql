@@ -6,12 +6,11 @@
 -- alter sequence myentity_seq restart with 4;
 
 create table Person (id integer not null, email varchar(255), firstname varchar(255), grade varchar(255), person_uuid varchar(255), surname varchar(255), primary key (id));
-create table Reservation (id integer not null, endTime timestamp(6), reservationDate date, startTime timestamp(6), personId integer, roomId integer, primary key (id));
+create table Reservation (id integer not null, endTime timestamp(6), reservationDate date, startTime timestamp(6), uid  varchar, roomId integer, primary key (id));
 create table Room (id integer not null, description varchar(255), name varchar(255), primary key (id));
 create sequence person_seq start with 1 increment by 1;
 create sequence reservation_seq start with 1 increment by 1;
 create sequence room_seq start with 1 increment by 1;
-alter table if exists Reservation add constraint FK6dxcc1u2ugq8lfsqe24gien04 foreign key (personId) references Person;
 alter table if exists Reservation add constraint FKb28gu6q7ewrw11wxj026rcbco foreign key (roomId) references Room;
 
 

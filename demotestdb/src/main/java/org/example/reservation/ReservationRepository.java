@@ -14,6 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserRecord;
+import java.util.concurrent.ExecutionException;
+
+
 
 @ApplicationScoped
 public class ReservationRepository {
@@ -63,7 +68,7 @@ public class ReservationRepository {
     public void updateReservation(int id, Reservation reservation){
         Reservation oldReservation = findByIdReservation(id);
         oldReservation.setReservationDate(reservation.getReservationDate());
-        oldReservation.setPerson(reservation.getPerson());
+        oldReservation.setUid(reservation.getUid());
         oldReservation.setRoom(reservation.getRoom());
         oldReservation.setEndTime(reservation.getEndTime());
         oldReservation.setStartTime(reservation.getStartTime());
@@ -75,7 +80,7 @@ public class ReservationRepository {
 
         for (Reservation currRes: getAllReservations()) {
             //checks if reservation is between another reservation
-            if (reservation.getId() == currRes.getId()) {
+            if (reservation.getRoom().getId() == currRes.getRoom().getId()) {
 
                 if (reservation.getStartTime().isAfter(currRes.getStartTime()) && reservation.getStartTime().isBefore(currRes.getEndTime())) {
                     result =  false;
